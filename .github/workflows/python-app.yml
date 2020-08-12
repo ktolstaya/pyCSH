@@ -1,0 +1,33 @@
+name: Run
+
+on:
+  workflow_dispatch:
+
+jobs:
+  csh_job:
+    name: run csh
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.6
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.6
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install numpy
+        pip install opencv-python
+    
+    - name: Run main
+      run: python main.py
+    
+    - uses: actions/upload-artifact@v2
+      with:
+        name: result image synthesis
+        path: results/SabaResult.png
+    
+    - uses: actions/upload-artifact@v2
+      with:
+        name: result image depth propagation
+        path: results/depth_00004.png
